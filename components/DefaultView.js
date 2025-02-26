@@ -1,4 +1,4 @@
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import DateCarousel from "/components/DateCarousel.js";
 import MuscleGroupList from "/components/MuscleGroupList.js"
 
@@ -19,19 +19,28 @@ export default {
       timePerSet: "",
     });
 
+    const exerciseNames = ref([
+      "Bench Press",
+      "Squats",
+      "Deadlifts",
+      "Pull-ups",
+      "Bicep Curls",
+      "Tricep Dips",
+    ]);
+
     const fetchWorkouts = (date) => {
-      const mockData = {
+      const data = {
         "2025-02-24": [
           {
             group: "Chest",
             exercises: [
-              { name: "Bench Press", sets: 3, reps: 10, weight: "80kg", timePerSet: "45s" },
+              { name: "Bench Press", sets: 3, reps: 10, weight: "80lbs", timePerSet: "45s" },
             ],
           },
           {
             group: "Legs",
             exercises: [
-              { name: "Squats", sets: 4, reps: 12, weight: "100kg", timePerSet: "50s" },
+              { name: "Squats", sets: 4, reps: 12, weight: "100lbs", timePerSet: "50s" },
             ],
           },
         ],
@@ -45,13 +54,13 @@ export default {
           {
             group: "Arms",
             exercises: [
-              { name: "Bicep Curls", sets: 3, reps: 12, weight: "15kg", timePerSet: "40s" },
+              { name: "Bicep Curls", sets: 3, reps: 12, weight: "15lbs", timePerSet: "40s" },
             ],
           },
         ],
       };
       const dateKey = date.toISOString().split("T")[0];
-      workouts.value = mockData[dateKey] || [];
+      workouts.value = data[dateKey] || [];
     };
 
     const updateDate = (newDate) => {
@@ -61,20 +70,18 @@ export default {
 
     const saveExercise = () => {
       if (!newExercise.value.name) {
-                
+        // inform the user
         return;
       }
 
-      if (newExercise.value.name.trim() === "") return;
-      
       const exerciseData = { ...newExercise.value };
-      
+
       if (workouts.value.length > 0) {
         workouts.value[0].exercises.push(exerciseData);
       } else {
         workouts.value.push({ group: "Custom", exercises: [exerciseData] });
       }
-      
+
       newExercise.value = { name: "", sets: 3, reps: 10, weight: "", timePerSet: "" };
       showModal.value = false;
     };
@@ -87,8 +94,10 @@ export default {
       showModal,
       newExercise,
       saveExercise,
+      exerciseNames
     };
   },
+  //    <<h1 class="text-center">Fitness App</h1>
   template: `<div class="container mt-4">
     <h2 class="text-center mb-3">Workout History</h2>
     <DateCarousel @dateChanged="updateDate" />
@@ -101,7 +110,7 @@ export default {
     </div>
 
     <!-- Modal -->
-    <div v-if="showModal" class="modal fade show d-block" tabindex="-1" style="background: rgba(0, 0, 0, 0.5);">
+    <div v-if="showModal" class="modal fade show d-block" tabindex="-1" style="baclbsround: rgba(0, 0, 0, 0.5);">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -110,15 +119,20 @@ export default {
           </div>
           <div class="modal-body">
             <label class="form-label">Exercise Name</label>
-            <input v-model="newExercise.name" class="form-control" type="text" />
+            <select v-model="newExercise.name" class="form-control">
+              <option disabled value="">Select an exercise</option>
+              <option v-for="exercise in exerciseNames" :key="exercise" :value="exercise">
+                {{ exercise }}
+              </option>
+            </select>
             <label class="form-label mt-2">Sets</label>
             <input v-model="newExercise.sets" class="form-control" type="number" />
             <label class="form-label mt-2">Reps</label>
             <input v-model="newExercise.reps" class="form-control" type="number" />
             <label class="form-label mt-2">Weight</label>
-            <input v-model="newExercise.weight" class="form-control" type="text" />
+            <input v-model="newExercise.weight" class="form-control" type="number" />
             <label class="form-label mt-2">Time per Set</label>
-            <input v-model="newExercise.timePerSet" class="form-control" type="text" />
+            <input v-model="newExercise.timePerSet" class="form-control" type="select" />
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" @click="showModal = false">Cancel</button>
