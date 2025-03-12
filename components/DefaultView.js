@@ -2,7 +2,6 @@ import { ref } from "vue";
 import DateCarousel from "../components/DateCarousel.js";
 import ExerciseGroupList from "../components/ExerciseGroupList.js"
 import AddExerciseModal from "../components/AddExerciseModal.js";
-import ExerciseGroupListItem from "./ExerciseGroupListItem.js";
 
 export default {
   components: {
