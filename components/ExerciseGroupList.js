@@ -1,4 +1,4 @@
-import ExerciseGroupListItem from "/components/ExerciseGroupListItem.js"
+import ExerciseGroupListItem from "../components/ExerciseGroupListItem.js"
 
 export default {
   components: { ExerciseGroupListItem },
