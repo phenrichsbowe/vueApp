@@ -50,7 +50,7 @@ export default {
   },
   template: `<div class="d-flex align-items-center justify-content-center gap-3">
     <button class="btn btn-primary" @click="prevDate(); increment();">&lt;</button>
-    <div class="px-4 py-2 border rounded bg-light" @click="showDatePicker = true">{{ formattedDate }}</div>
+    <span class="px-4 py-2 border rounded bg-light" @click="showDatePicker = true">{{ formattedDate }}</span>
     <button class="btn btn-primary" @click="nextDate">&gt;</button>
     
     <v-dialog v-model="showDatePicker" persistent>
