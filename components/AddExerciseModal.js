@@ -24,12 +24,10 @@ export default {
   },
   template: `
     <div v-if="show">
-      <!-- ModalBase component receiving the 'show' prop and emitting 'close' event -->
       <ModalBase 
         title="Add Exercise" 
         @close="closeModal"
       >
-
         <template v-slot:header>
           <button type="button" class="btn-close" @click="closeModal"></button>
         </template>
